@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Header Navbar: style can be found in header.less -->
+<div th:fragment="menu">
+    <ul class="sidebar-menu" data-widget="tree" >
+        <li class="treeview" th:each="menulist ,menuStat : ${menuList}">
+            <a th:href="${menulist.href}" th:if="${ not #lists.isEmpty(menulist.children)}">
+                <i th:class="${menulist.icon}"></i> <span th:text="${menulist.name}"></span>
+                <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                 </span>
+            </a>
+            <ul class="treeview-menu" >
+                <li class="active" th:each="menuliste ,menusStat : ${menulist.children}">
+                    <a th:href="${menuliste.href}"><i th:class="${menuliste.icon}"></i><span th:text="${menuliste.name}"></span></a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="treeview" th:each="menulist ,menuStat : ${menuList}">
+            <a th:href="${menulist.href}" th:if="${#lists.isEmpty(menulist.children)}">
+                <i th:class="${menulist.icon}"></i> <span th:text="${menulist.name}"></span>
+            </a>
+        </li>
+    </ul>
+</div>

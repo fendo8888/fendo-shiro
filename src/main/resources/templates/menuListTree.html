@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/common/header :: commonHeader('菜单列表')">
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="panel-body" style="padding-bottom:0px;">
+         <div class="panel panel-default">
+             <div class="panel-heading">查询条件</div>
+             <div class="panel-body">
+               <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px" >
+                        <label class="control-label col-sm-1" for="txt_search_departmentname">菜单名称</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="txt_search_departmentname">
+                        </div>
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="btn_query" name="refresh" class="btn btn-primary">查询</button>
+                        </div>
+                    </div>
+             </form>
+        </div>
+    </div>
+        </div>
+        <table class="tree">
+            <tr class="treegrid-1">
+                <td>Root node</td><td>Additional info</td>
+            </tr>
+            <tr class="treegrid-2 treegrid-parent-1">
+                <td>Node 1-1</td><td>Additional info</td>
+            </tr>
+            <tr class="treegrid-3 treegrid-parent-1">
+                <td>Node 1-2</td><td>Additional info</td>
+            </tr>
+            <tr class="treegrid-4 treegrid-parent-3">
+                <td>Node 1-2-1</td><td>Additional info</td>
+            </tr>
+        </table>
+
+        <table id="menuTable" ></table>
+    </div>
+    <script type="text/javascript" th:src="@{/plugins/jquery-treegrid/js/jquery.treegrid.js}"></script>
+    <script type="text/javascript" th:src="@{/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js}"></script>
+    <script th:src="@{/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js}"></script>
+    <script th:src="@{/plugins/jquery-treegrid/js/tree-table-object.js}"></script>
+    <script type="text/javascript">
+//        $('.tree').treegrid({
+//            expanderExpandedClass: 'glyphicon glyphicon-minus',
+//            expanderCollapsedClass: 'glyphicon glyphicon-plus'
+//        });
+//        $('#tb').treegridData({
+//            id: 'id',
+//            parentColumn: 'parentId',
+//            type: "GET", //请求数据的ajax类型
+//            url: '/menu/menulist',   //请求数据的ajax的url
+//            ajaxParams: {}, //请求数据的ajax的data属性
+//            expandColumn: 2,//在哪一列上面显示展开按钮
+//            striped: true,   //是否各行渐变色
+//            bordered: true,  //是否显示边框
+//            //expandAll: false,  //是否全部展开
+//            columns: [
+//                {
+//                    field: 'id',
+//                    title: '编号',
+//                }, {
+//                    field: 'name',
+//                    title: '菜单名称',
+//                }, {
+//                    field: 'sort',
+//                    title: '菜单排序'
+//                }, {
+//                    field: 'href',
+//                    title: '链接'
+//                }, {
+//                    field: 'icon',
+//                    title: '图标'
+//                }, {
+//                    field: 'isShow',
+//                    title: '是否显示'
+//                }, {
+//                    field: 'isMenu',
+//                    title: '是否菜单'
+//                },{
+//                    field: 'parentId',
+//                    title: '父级编号'
+//                },{
+//                    field: 'permission',
+//                    title: '权限标识'
+//                },{
+//                    field: 'remarks',
+//                    title: '备注信息'
+//                },{
+//                    field: 'levels',
+//                    title: '菜单层级'
+//                }
+//            ]
+//        });
+    /**
+ * 角色管理的单例
+ */
+//var Menu = {
+//        id: "menuTable",	//表格id
+//        seItem: null,		//选中的条目
+//        table: null,
+//        layerIndex: -1
+//    };
+///**
+// * 初始化表格的列
+// */
+//Menu.initColumn = function () {
+//    var columns = [
+//        {field: 'selectItem', radio: true},
+//        {title: '编号', field: 'id', visible: false, align: 'center', valign: 'middle',width:'50px'},
+//        {title: '菜单名称', field: 'name', align: 'center', valign: 'middle', sortable: true,width:'17%'},
+//        {title: '菜单排序', field: 'sort', align: 'center', valign: 'middle', sortable: true,width:'12%'},
+//        {title: '菜单链接', field: 'href', align: 'center', valign: 'middle', sortable: true},
+//        {title: '菜单图标', field: 'icon', align: 'center', valign: 'middle', sortable: true,width:'15%'},
+//        {title: '是否显示', field: 'isshow', align: 'center', valign: 'middle', sortable: true},
+//        {title: '是否菜单', field: 'isMenu', align: 'center', valign: 'middle', sortable: true},
+//        {title: '父级编号', field: 'parentId', align: 'center', valign: 'middle', sortable: true},
+//        {title: '权限标识', field: 'permission', align: 'center', valign: 'middle', sortable: true}]
+//    return columns;
+//};
+//$(function () {
+//    var defaultColunms = Menu.initColumn();
+//    var table = new BSTreeTable(Menu.id, "/menu/menulist", defaultColunms);
+//    table.setExpandColumn(2);
+//    table.setIdField("id");
+//    table.setCodeField("id");
+//    table.setParentCodeField("parentId");
+//    table.setExpandAll(true);
+//    table.init();
+//    Menu.table = table;
+//});
+
+
+    $organ_treegrid  = $('#menuTable').treegrid({
+        url:'/menu/menulist',
+        fit:true,
+        fitColumns:false,//自适应列宽
+        striped:true,//显示条纹
+        rownumbers:true,//显示行数
+        nowrap : false,
+        border : false,
+        singleSelect:true,
+        showFooter : true,
+        remoteSort:false,//是否通过远程服务器对数据排序
+        /*  sortName:'orderNo',//默认排序字段
+         sortOrder:'asc',//默认排序方式 'desc' 'asc' */
+        idField : 'id',
+        treeField:"name",
+        /*  frozenColumns:[[
+         {field:'name',title:'机构名称',width:200},
+         {field:'sysCode',title:'机构系统编码',width:120}
+         ]], */
+        columns:[
+            {title: '编号', field: 'id', visible: false, align: 'center', valign: 'middle',width:'50px'},
+            {title: '菜单名称', field: 'name', align: 'center', valign: 'middle', sortable: true,width:'17%'},
+            {title: '菜单排序', field: 'sort', align: 'center', valign: 'middle', sortable: true,width:'12%'},
+            {title: '菜单链接', field: 'href', align: 'center', valign: 'middle', sortable: true},
+            {title: '菜单图标', field: 'icon', align: 'center', valign: 'middle', sortable: true,width:'15%'},
+            {title: '是否显示', field: 'isshow', align: 'center', valign: 'middle', sortable: true},
+            {title: '是否菜单', field: 'isMenu', align: 'center', valign: 'middle', sortable: true},
+            {title: '父级编号', field: 'parentId', align: 'center', valign: 'middle', sortable: true},
+            {title: '权限标识', field: 'permission', align: 'center', valign: 'middle', sortable: true}
+        ]
+    })
+    </script>
+</body>
+</html>

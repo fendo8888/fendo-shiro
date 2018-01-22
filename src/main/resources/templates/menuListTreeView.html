@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/common/header :: commonHeader('菜单列表')">
+    <link th:href="@{/plugins/bootstrap-treeview/css/bootstrap-treeview.css}" rel="stylesheet" type="text/css"/>
+    <style>
+        .none{ display:none;}
+        .area{ margin-top:15px;}
+        .area span{ display:inline-block; width:100px; text-align:right; font-size:14px; color:#666; line-height:30px;}
+        .area span i{ color:#f3478c;}
+        .area em{ font-size:14px; color:#d80000;}
+        .area ul{ display:inline-block; margin-left:-4px;}
+        .area ul li{ margin-right:10px; display:inline-block;}
+        /*地区 选择 下拉*/
+        .return_reques{ position:relative;}
+        .return_reques input{width:150px;height:30px;text-indent:0.5rem;  background-color:#fff; border:1px solid #ccc; vertical-align:middle; line-height:30px;}
+        .return_reques .local{ background:url(images/bot_imgs.png) no-repeat;background-position:99% center;}
+        .return_reques .local2{  background:url(images/bot_imgs.png) no-repeat;background-position:99% center;}
+        .return_reques .bomb_con_style{ background-color:#fff; position:absolute;left:0px;z-index:999999; cursor:pointer;f3478c; border:1px solid #ccc; height:130px; overflow:auto;}
+        .return_reques .bomb_con_style dd{background-color:#fff;height:28px;line-height:28px;color:#f3478c;font-size:12px;  color:#666; text-indent:0.5em;}
+        .return_reques .bomb_con_style dd:hover{ background-color:#f3478c; color:#fff;}
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="col-sm-12">
+        <h2>Default</h2>
+        <div id="treeview1" class=""></div>
+    </div>
+
+
+
+    <div class="col-sm-12">
+        <h2>Default</h2>
+        <div id="treeview3" class=""></div>
+    </div>
+    <div class="col-sm-12">
+        <!-- Horizontal Form -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Horizontal Form</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_departmentname" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txt_departmentname" name="txt_departmentname" class="form-control" value="" onclick="$('#treeviewtext').show()" placeholder="分类名称">
+                            <div id="treeviewtext" style="display: none;"> </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+
+    </div>
+
+
+    </div>
+    <script type="text/javascript" th:src="@{/plugins/bootstrap-treeview/js/bootstrap-treeview.js}"></script>
+    <script type="text/javascript">
+        var defaultData = [
+            {
+                text: 'Parent 1',
+                href: '#parent1',
+                tags: ['4'],
+                nodes: [
+                    {
+                        text: 'Child 1',
+                        href: '#child1',
+                        tags: ['2'],
+                        nodes: [
+                            {
+                                text: 'Grandchild 1',
+                                href: '#grandchild1',
+                                tags: ['0']
+                            },
+                            {
+                                text: 'Grandchild 2',
+                                href: '#grandchild2',
+                                tags: ['0']
+                            }
+                        ]
+                    },
+                    {
+                        text: 'Child 2',
+                        href: '#child2',
+                        tags: ['0']
+                    }
+                ]
+            },
+            {
+                text: 'Parent 2',
+                href: '#parent2',
+                tags: ['0']
+            },
+            {
+                text: 'Parent 3',
+                href: '#parent3',
+                tags: ['0']
+            },
+            {
+                text: 'Parent 4',
+                href: '#parent4',
+                tags: ['0']
+            },
+            {
+                text: 'Parent 5',
+                href: '#parent5'  ,
+                tags: ['0']
+            }
+        ];
+
+        var defaultDatae = [
+            {
+                "id": "2",
+                "leaf": true,
+                "level": "1",
+                "nodes": [{
+                    "id": "13",
+                    "leaf": true,
+                    "level": "2",
+                    "pid": "2",
+                    "selectable": true,
+                    "state": {
+                        "checked": false,
+                        "disabled": false,
+                        "expanded": true,
+                        "selected": false
+                    },
+                    "text": "机构用户"
+                }, {
+                    "id": "14",
+                    "leaf": true,
+                    "level": "2",
+                    "pid": "2",
+                    "selectable": true,
+                    "state": {
+                        "checked": false,
+                        "disabled": false,
+                        "expanded": true,
+                        "selected": false
+                    },
+                    "text": "区域管理"
+                }, {
+                    "id": "17",
+                    "leaf": true,
+                    "level": "2",
+                    "pid": "2",
+                    "selectable": true,
+                    "state": {
+                        "checked": false,
+                        "disabled": false,
+                        "expanded": true,
+                        "selected": false
+                    },
+                    "text": "机构管理"
+                }, {
+                    "id": "20",
+                    "leaf": true,
+                    "level": "2",
+                    "pid": "2",
+                    "selectable": true,
+                    "state": {
+                        "checked": false,
+                        "disabled": false,
+                        "expanded": true,
+                        "selected": false
+                    },
+                    "text": "用户管理"
+                }, {
+                    "id": "22",
+                    "leaf": true,
+                    "level": "2",
+                    "pid": "2",
+                    "selectable": true,
+                    "state": {
+                        "checked": false,
+                        "disabled": false,
+                        "expanded": true,
+                        "selected": false
+                    },
+                    "text": "菜单管理"
+                }],
+                "pid": "1",
+                "selectable": false,
+                "state": {
+                    "checked": false,
+                    "disabled": false,
+                    "expanded": false,
+                    "selected": false
+                },
+                "text": "系统设置"
+            }
+        ];
+
+//        $('#treeview1').treeview({
+//            data: defaultData
+//        });
+//
+        $('#treeview3').treeview({
+            data: defaultDatae
+        });
+        $(function () {
+
+            $.ajax({
+                type: "get",
+                url: "/menu/menutreeviewlist",
+                dataType: "json",
+                success: function (result) {
+                    var dataObj=eval(result);//转换为json对象
+                    console.info(dataObj);
+                    $('#treeview2').treeview({
+                        data: defaultDatae,         // 数据源
+                        showCheckbox: true,   //是否显示复选框
+                        onNodeChecked: function (event,data) {
+                            //alert(data.nodeId);
+                            alert(data.nodeId + "--" + data.id+"前面是id，后面是名字"+data.text);//这里拿到id和name，就可以通过函数跳转触发点击事件
+                        },
+                        onNodeSelected: function (event, data) {
+                            alert(data.nodeId);
+                        }
+                    });
+                },
+                error: function () {
+                    alert("树形结构加载失败！")
+                }
+            });
+
+
+            var data1 = [];
+            $.ajax({
+                type : "get",
+                url : "/menu/menutreeviewlist",
+                success : function(data, status) {
+                    data1 = eval("[" + data + "]");
+
+                },
+                error : function() {
+                    console.info('Error');
+                },
+            });
+            function buildDomTree() {
+                var data = [];
+                var root = "所有分类";
+                function walk(nodes, data) {
+                    if (!nodes) {
+                        return;
+                    }
+                    $.each(nodes, function(id, node) {
+                        var obj = {
+                            id : id,
+                            text : node.name != null ? node.name : root,
+//                            tags : [ node.isLeaf == true ? node.isLeaf + ' child elements' : '' ]
+                        };
+                        if (node.isLeaf = true) {
+                            obj.nodes = [];
+                            walk(node.children, obj.nodes);
+                        }
+                        data.push(obj);
+                    });
+                }
+
+                walk(data1, data);
+                return data;
+            }
+
+            $("#txt_departmentname").click(function() {
+                var options = {
+                    bootstrap2 : false,
+                    showTags : true,
+                    levels : 5,
+                    showCheckbox : true,
+                    checkedIcon : "glyphicon glyphicon-check",
+                    data : data1,
+                    onNodeSelected : function(event, data) {
+                        $("#txt_departmentname").val(data.text);
+                        $('#treeviewtext').treeview('checkNode', [ data.nodeId, { silent: true } ])
+                        //this.treeview('checkNode', [ checkableNodes, { silent: $('#chk-check-silent').is(':checked') }]);
+                        $("#treeviewtext").hide();
+                    },
+                    onNodeChecked: function (event,data) {
+                        $("#txt_departmentname").val(data.text);
+                        $("#treeviewtext").hide();
+                    }
+                };
+                $('#treeviewtext').treeview(options);
+            });
+
+
+        })
+    </script>
+</body>
+</html>

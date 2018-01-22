@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:dict="">
+<head th:include="/common/header :: commonHeader('新增菜单')">
+    <link th:href="@{/plugins/bootstrap-treeview/css/bootstrap-treeview.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Horizontal Form -->
+<div class="box box-info">
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal"id="MenuForm" th:action="@{/menu/menuadd}" th:object="${MenuEntity}" th:method="post" >
+        <div class="box-body">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">菜单名称</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="菜单名称">
+                </div>
+                <label for="sort" class="col-sm-2 control-label">菜单排序</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="sort" id="sort" placeholder="菜单排序">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="href" class="col-sm-2 control-label">菜单链接</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="href" id="href" placeholder="菜单链接">
+                </div>
+                <label for="icon" class="col-sm-2 control-label">菜单图标</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="icon" id="icon" placeholder="菜单图标">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="isShow" class="col-sm-2 control-label">是否显示</label>
+                <div class="col-sm-4">
+                    <!--<input type="text" class="form-control" name="isShow" id="isShow" placeholder="是否显示">-->
+                    <dict:matter dictType="isShow" name="isShow" id="isShow" type="select"/>
+                </div>
+                <label for="isMenu" class="col-sm-2 control-label">是否菜单</label>
+                <div class="col-sm-4">
+                    <!--<input type="text" class="form-control" name="isMenu" id="isMenu" placeholder="是否菜单">-->
+                    <!--<dict:matter dictType="sex" name="isMenu" id="isMenu" type="select"/>-->
+                    <dict:matter dictType="isMenu" name="isMenu" id="isMenu" type="radio"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="parent" class="col-sm-2 control-label">上级菜单</label>
+
+<!--
+                    <input type="text" class="form-control" name="parentId" id="parentId" placeholder="父级编号">
+-->
+                <div class="col-sm-4">
+                    <input type="text" id="parentId" name="parentId" class="form-control" value="" style="display: none">
+                    <input type="text" id="parent" name="parent" class="form-control" value="" onclick="$('#treeviewtext').show()" placeholder="上级菜单">
+                    <div id="treeviewtext" style="display: none;"> </div>
+                </div>
+                <label for="permission" class="col-sm-2 control-label">权限标识</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="permission" id="permission" placeholder="权限标识">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="remarks" class="col-sm-2 control-label">备注信息</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="remarks" id="remarks" placeholder="备注信息">
+                </div>
+                <label for="levels" class="col-sm-2 control-label">菜单层级</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="levels" id="levels" placeholder="菜单层级">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <div style="margin:0 auto; width:500px;padding: 0 auto;text-align:center">
+                <button type="submit" class="btn btn-default">取消</button>
+                <button type="" class="btn btn-info">保存</button>
+            </div>
+
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
+<!-- jQuery 3 -->
+<script th:src="@{/plugins/formvalidation/vendor/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/plugins/formvalidation/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/bootstrap-treeview/js/bootstrap-treeview.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/formvalidation/js/formValidation.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/formvalidation/js/framework/bootstrap.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var datajson = [];
+        $.ajax({
+            type : "get",
+            url : "/menu/menutreeviewlist",
+            success : function(data, status) {
+                datajson = eval("[" + data + "]");
+
+            },
+            error : function() {
+                console.info('Error');
+            },
+        });
+        $("#parent").click(function() {
+            var options = {
+                bootstrap2 : false,
+                showTags : true,
+                levels : 5,
+                showCheckbox : true,
+                checkedIcon : "glyphicon glyphicon-check",
+                data : datajson,
+                onNodeSelected : function(event, data) {
+                    //|$("#parentId").val(data.text);
+                    $("#parent").val(data.text)
+                    $("#parentId").attr("value",data.id);
+                    $('#treeviewtext').treeview('checkNode', [ data.nodeId, { silent: true } ])
+                    //this.treeview('checkNode', [ checkableNodes, { silent: $('#chk-check-silent').is(':checked') }]);
+                    $("#treeviewtext").hide();
+                },
+                onNodeChecked: function (event,data) {
+                    $("#parent").val(data.text)
+                    $("#parentId").attr("value",data.id);
+                    $("#treeviewtext").hide();
+                }
+            };
+            $('#treeviewtext').treeview(options);
+        });
+    })
+
+    $('#MenuForme').formValidation({
+        message: 'This value is not valid',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+//        fields: {
+//            name: {
+//                validators: {
+//                    notEmpty: {
+//                        message: '请输入菜单名'
+//                    }
+//                }
+//            },
+//            sort: {
+//                validators: {
+//                    notEmpty: {
+//                        message: '请输入菜单排序'
+//                    }
+//                }
+//            },
+//            href: {
+//                validators: {
+//                    notEmpty: {
+//                        message: '请输入菜单链接'
+//                    }
+//                }
+//            },
+//            isShow: {
+//                validators: {
+//                    notEmpty: {
+//                        message: '请选择是否显示'
+//                    }
+//                }
+//            },
+//            parentId: {
+//                validators: {
+//                    notEmpty: {
+//                        message: '请选择上级菜单'
+//                    }
+//                }
+//            }
+//        }
+    });
+</script>
+</body>
+</html>
